@@ -1,0 +1,91 @@
+---
+import Photo from '../components/Photo.astro';
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Local area"
+  description="Yanama and its surroundings: day treks, lakes, the high peaks of the Cordillera Blanca and traditional Andean festivals."
+  shareImage="lake-llanganuco"
+>
+  <div class="wrap page-head">
+    <h1>Local Area</h1>
+  </div>
+
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <h2>Yanama</h2>
+        <p>
+          The way of life in Yanama remains unchanged so guests have the chance to see how a traditional community
+          live and work – their harvests, their textile making and their festivals.
+        </p>
+        <p>
+          There are several restaurants in Yanama that serve local food, shops that sell basic food and drink, and
+          a petrol station.
+        </p>
+      </div>
+      <Photo name="yanama-plaza" class="area-photo" eager />
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="wrap split split--flip">
+      <div>
+        <h2>Activities</h2>
+        <p>
+          For those that enjoy the outdoors there are a number of one day treks to the surrounding mountains and
+          lakes such as Shanoj and Lake Ulta. There is also plenty of opportunity for walking, horseriding,
+          mountain biking or trout fishing in the beautiful countryside surrounding the lodge. Other places of
+          interest include the Ruinas de Sahuan y Quisar and Mirador Huayllan which gives great views of the
+          Cordillera Blanca.
+        </p>
+      </div>
+      <Photo name="lake-llanganuco" class="area-photo" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="prose">
+        <h2>High Peaks</h2>
+        <p>
+          The lodge is a great place for acclimatising prior to climbing the high peaks of the Cordillera Blanca.
+          The lodge itself is surrounded by mountains of over 5500m such as Chacraraju, Contrayerva, Ulta,
+          Chopicallqui and Puca Raju, all of which can be climbed in two or more days.
+        </p>
+      </div>
+      <div class="photo-row peaks">
+        <Photo name="viewpoint-sunburst" />
+        <Photo name="yanama-plaza-snow-peak" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="wrap">
+      <div class="prose">
+        <h2>Festivities</h2>
+        <p>
+          Visitors in February have the chance to experience the Andean festival of Carnival which is celebrated
+          throughout Peru. The festival includes the ritual of “yunza” where guests dance around a specially
+          transplanted tree bedecked with gifts. Guests take it in turns to try to fell the tree and the couple
+          who strike the final blow of the axe are given the honour of organising the following year's
+          celebrations. Water is thrown in most places during Carnival, so watch out for a sudden soaking! Other
+          important festivals celebrated in the village are on the 28th of July (Peruvian Independence Day), the
+          30th of August (Santa Rosa de Lima).
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  :global(.area-photo) {
+    aspect-ratio: 4 / 3;
+  }
+
+  .peaks {
+    margin-top: 1.5rem;
+  }
+</style>

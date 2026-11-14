@@ -1,0 +1,37 @@
+---
+// Optimised, responsive photo looked up by name from src/assets/images.
+import { Image } from 'astro:assets';
+import { img } from '../data/images';
+
+interface Props {
+  name: string;
+  /** Override the default description */
+  alt?: string;
+  /** CSS sizes hint: how wide the photo is shown */
+  sizes?: string;
+  class?: string;
+  /** Load immediately (use for the first photo on a page) */
+  eager?: boolean;
+}
+
+const {
+  name,
+  alt,
+  sizes = '(min-width: 820px) 560px, 100vw',
+  class: className,
+  eager = false,
+} = Astro.props;
+const photo = img(name);
+const widths = [400, 800, 1200, 1600].filter((w) => w <= photo.src.width);
+if (widths.length === 0) widths.push(photo.src.width);
+---
+
+<Image
+  src={photo.src}
+  alt={alt ?? photo.alt}
+  widths={widths}
+  sizes={sizes}
+  class:list={['photo', className]}
+  loading={eager ? 'eager' : 'lazy'}
+  fetchpriority={eager ? 'high' : undefined}
+/>

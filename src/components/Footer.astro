@@ -1,0 +1,90 @@
+---
+import { mailtoLink, nav, phones, site, whatsappLink } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap cols">
+    <div>
+      <p class="name">{site.name}</p>
+      <p>{site.address.display}</p>
+      <p><a href={site.tripadvisor} rel="noopener">Read our reviews on Tripadvisor</a></p>
+    </div>
+
+    <div>
+      <p class="label">WhatsApp</p>
+      <ul>
+        {
+          phones.map((p) => (
+            <li>
+              {p.country}: <a href={whatsappLink(p.number)} rel="noopener">{p.display}</a>
+            </li>
+          ))
+        }
+      </ul>
+      <p><a href={mailtoLink}>{site.email}</a></p>
+    </div>
+
+    <div>
+      <p class="label">Explore</p>
+      <ul>
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </div>
+  </div>
+  <div class="wrap legal">© {year} {site.name}</div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: 3rem 1.5rem;
+    background: var(--ink);
+    color: #d9d4cd;
+    font-size: 0.95rem;
+  }
+
+  .cols {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .name {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .label {
+    margin-bottom: 0.4em;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #a39c93;
+  }
+
+  ul {
+    margin: 0 0 1em;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    color: var(--white);
+  }
+
+  a:hover {
+    color: #ffb3bf;
+  }
+
+  .legal {
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #3a3632;
+    font-size: 0.85rem;
+    color: #a39c93;
+  }
+</style>

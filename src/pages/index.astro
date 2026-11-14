@@ -1,0 +1,119 @@
+---
+import ContactBlock from '../components/ContactBlock.astro';
+import Photo from '../components/Photo.astro';
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base>
+  <section class="hero">
+    <Photo name="yanama-valley-panorama" sizes="100vw" eager />
+    <div class="hero-text">
+      <div class="wrap">
+        <h1>{site.name}</h1>
+        <p>{site.tagline}</p>
+        <a class="button" href="#reservation">Make a reservation</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="prose">
+        <h2>Welcome</h2>
+        <p>
+          Andes Lodge Peru is a family-run guesthouse located in the village of Yanama, Ancash, Peru, offering
+          accommodation just twenty minutes outside the Huascaran National Park. The lodge is a comfortable place
+          to stay in a traditional rural Andean community of Peru.
+        </p>
+        <p>
+          Surrounding the lodge are some of the highest peaks of the Cordillera Blanca such as Huascaran, Pisco,
+          Chopicalqui, Contrahierba and Huandoy. It is an ideal base for those guests wanting to acclimatise prior
+          to climbing some of these peaks. The lodge can also be a good place to stay if you are exploring the
+          beautiful Lake Llanganuco, Lake 69, Lake Ulta and the Santa Cruz trek.
+        </p>
+      </div>
+      <div class="photo-row welcome-photos">
+        <Photo name="lodge-exterior" sizes="(min-width: 820px) 360px, 100vw" />
+        <Photo name="terrace-covered-view" sizes="(min-width: 820px) 360px, 100vw" />
+        <Photo name="balcony-valley-view" sizes="(min-width: 820px) 360px, 100vw" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand" id="location">
+    <div class="wrap prose-wrap">
+      <div class="prose">
+        <h2>Location</h2>
+        <p>
+          Yanama is situated close to the Huascaran National Park and is four and a half hours from the city of
+          Huaraz. It can be reached by public transport or by taxi. The road to Yanama gives views of the
+          Cordillera Blanca including Huascaran, Peru's highest mountain. It passes through the Huascaran National
+          Park with its beautiful glacial lakes and stunning mountain scenery.
+        </p>
+        <p><strong>Address:</strong> {site.address.display}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="reservation">
+    <div class="wrap">
+      <h2>To make a reservation</h2>
+      <ContactBlock />
+      <p class="reviews">
+        <a href={site.tripadvisor} rel="noopener">Read our reviews on Tripadvisor</a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    display: grid;
+    min-height: min(70vh, 560px);
+    background: var(--ink);
+  }
+
+  .hero > :global(*) {
+    grid-area: 1 / 1;
+  }
+
+  .hero :global(.photo) {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .hero-text {
+    display: flex;
+    align-items: flex-end;
+    padding-block: clamp(2rem, 6vw, 4rem);
+    background: linear-gradient(to top, rgb(0 0 0 / 0.72), rgb(0 0 0 / 0.1) 70%);
+    color: var(--white);
+  }
+
+  .hero-text h1 {
+    margin-bottom: 0.3em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .hero-text p {
+    max-width: 44ch;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    line-height: 1.5;
+  }
+
+  .welcome-photos {
+    margin-top: 2rem;
+  }
+
+  .reviews {
+    margin-top: 1.5rem;
+  }
+
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+</style>

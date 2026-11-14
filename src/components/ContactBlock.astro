@@ -1,0 +1,76 @@
+---
+import { mailtoLink, phones, site, whatsappLink } from '../data/site';
+---
+
+<div class="contact">
+  <p>The best way to arrange a reservation is through WhatsApp, using the following numbers:</p>
+
+  <ul class="numbers">
+    {
+      phones.map((p) => (
+        <li>
+          <a href={whatsappLink(p.number)} rel="noopener">
+            <span class="country">{p.country}</span>
+            <span class="number">{p.display}</span>
+            <span class="langs">{p.languages}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p>
+    Please include the following in the first line of your message: "{site.whatsappMessage}"
+  </p>
+  <p>
+    You can also email us at <a href={mailtoLink}>{site.email}</a>. The inbox is checked once a week, therefore
+    if you need a quicker response, please contact us through WhatsApp.
+  </p>
+</div>
+
+<style>
+  .contact {
+    max-width: 68ch;
+  }
+
+  .numbers {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    margin: 1.25rem 0 1.5rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .numbers a {
+    display: grid;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--red);
+    border-radius: var(--radius);
+    background: var(--white);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .numbers a:hover {
+    border-color: var(--red);
+  }
+
+  .country {
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .number {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .langs {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+</style>

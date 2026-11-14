@@ -1,0 +1,140 @@
+---
+import Photo from '../components/Photo.astro';
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Lodge Amenities"
+  description="Garden, rooftop terrace with bar, lounge, Peruvian food, laundry and Wi-Fi at Andes Lodge Peru in Yanama."
+  shareImage="terrace-breakfast-table"
+>
+  <div class="wrap page-head">
+    <h1>Lodge Amenities</h1>
+  </div>
+
+  <section class="section">
+    <div class="wrap split">
+      <Photo name="garden" class="amenity-photo" eager />
+      <div>
+        <h2>Garden</h2>
+        <p>The small, tranquil garden is ideal for reading or snoozing in the sun.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="wrap split split--flip">
+      <Photo name="terrace-breakfast-table" class="amenity-photo" />
+      <div>
+        <h2>Rooftop Terrace</h2>
+        <p>
+          Guests can take it easy on the roof-top terrace, sipping a drink from the bar whilst looking out onto
+          snow-capped mountains.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <Photo name="lounge" class="amenity-photo" />
+      <div>
+        <h2>Lounge</h2>
+        <p>The comfortable lounge is equipped with music, cable TV, DVDs and games.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="wrap split split--flip">
+      <div class="pair">
+        <Photo name="rooftop-terrace" sizes="(min-width: 820px) 280px, 50vw" />
+        <Photo name="oven-fire-night" sizes="(min-width: 820px) 280px, 50vw" />
+      </div>
+      <div>
+        <h2>Authentic Peruvian Food and Drink</h2>
+        <p>
+          Breakfast is included in the room's price, and if you would like to book lunch and dinner meals you just
+          have to let us know at least a week in advance (this is so we can get all the ingredients in advance as
+          we may need to get some stuff from Huaraz). There are local restaurants in the village but if you have
+          some dietary requirements we advise to book with us in advance. Local restaurants mostly provide local
+          dishes and are generally of good quality. If you have any doubts about the restaurant you could ask at
+          the lodge for recommendations or we may also be able to help book a restaurant for you.
+        </p>
+        <p><strong>Note:</strong> If the lodge isn't busy, it may be possible for you to prepare your own meals.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="cards">
+        <article>
+          <h2>Laundry</h2>
+          <p>
+            A laundry service is offered at a minimal charge and guests are welcome to store luggage at the lodge
+            free of charge.
+          </p>
+        </article>
+        <article>
+          <h2>Wi-Fi available</h2>
+          <p>3G signal from Bitel (better signal), Movistar, and Entel are also available around the village.</p>
+        </article>
+        <article>
+          <h2>Late Check-out</h2>
+          <p>
+            Depending how busy the lodge is, late check-out at 3pm rather than 12pm may be possible. We will be
+            very happy to discuss this with you before or during your stay.
+          </p>
+        </article>
+      </div>
+
+      <div class="photo-row closing">
+        <Photo name="room-window-sunrise" />
+        <Photo name="bell-tower-sunset" />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  :global(.amenity-photo) {
+    aspect-ratio: 4 / 3;
+  }
+
+  .pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .pair :global(.photo) {
+    height: 100%;
+    aspect-ratio: 3 / 4;
+  }
+
+  .cards {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  .cards article {
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--white);
+  }
+
+  .cards h2 {
+    font-size: 1.25rem;
+  }
+
+  .cards p {
+    margin: 0;
+  }
+
+  .closing {
+    margin-top: 2rem;
+  }
+</style>

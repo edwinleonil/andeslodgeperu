@@ -1,0 +1,130 @@
+---
+import Photo from '../components/Photo.astro';
+import Base from '../layouts/Base.astro';
+import { currency, included, notes, roomGroups } from '../data/rooms';
+---
+
+<Base
+  title="Rooms & Prices"
+  description="Single, twin, double, super king-size and triple rooms at Andes Lodge Peru in Yanama. Prices are per room and include breakfast."
+  shareImage="room-super-king"
+>
+  <div class="wrap page-head">
+    <h1>Our Rooms &amp; Prices</h1>
+  </div>
+
+  <section class="section intro">
+    <div class="wrap">
+      <div class="info">
+        <div>
+          <p class="lead">All prices are per room and include:</p>
+          <ul>
+            {included.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div>
+          {notes.map((note) => <p>{note}</p>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {
+    roomGroups.map((group, i) => (
+      <section class:list={['section', { 'section--sand': i % 2 === 0 }]}>
+        <div class:list={['wrap', 'split', { 'split--flip': i % 2 === 1 }]}>
+          <Photo name={group.image} class="room-photo" eager={i === 0} />
+          <div>
+            <h2>{group.title}</h2>
+            {group.rooms.map((room) => (
+              <article class="room">
+                <h3>{room.name}</h3>
+                <p class="price">
+                  {currency} {room.price} <span>per night</span>
+                </p>
+                <p>{room.bathroom}</p>
+              </article>
+            ))}
+            <p class="beds">Beds in the room: {group.beds}</p>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="section">
+    <div class="wrap cta">
+      <p>To book a room, message us on WhatsApp or send an email.</p>
+      <a class="button" href="/#reservation">Make a reservation</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro {
+    padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .info {
+    display: grid;
+    gap: 1rem 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--red);
+    border-radius: var(--radius);
+    background: var(--white);
+  }
+
+  .info p:last-child,
+  .info ul {
+    margin-bottom: 0;
+  }
+
+  .lead {
+    margin-bottom: 0.4em;
+    font-weight: 600;
+  }
+
+  :global(.room-photo) {
+    aspect-ratio: 4 / 3;
+  }
+
+  .room {
+    padding-block: 1rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .room h3 {
+    margin-bottom: 0.2em;
+  }
+
+  .room p:last-child {
+    margin-bottom: 0;
+    color: var(--ink-soft);
+  }
+
+  .price {
+    margin-bottom: 0.3em;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--red-dark);
+  }
+
+  .price span {
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+
+  .beds {
+    margin: 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    font-weight: 600;
+  }
+
+  .cta {
+    text-align: center;
+  }
+</style>

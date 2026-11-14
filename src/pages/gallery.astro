@@ -1,0 +1,199 @@
+---
+import { getImage, Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { gallery, img } from '../data/images';
+
+const photos = await Promise.all(
+  gallery.map(async (name) => {
+    const photo = img(name);
+    const full = await getImage({ src: photo.src, width: Math.min(1600, photo.src.width) });
+    return { ...photo, full: full.src };
+  }),
+);
+---
+
+<Base
+  title="Gallery"
+  description="Photos of Andes Lodge Peru, the village of Yanama and the surrounding Cordillera Blanca."
+  shareImage="lodge-front"
+>
+  <div class="wrap page-head">
+    <h1>Gallery</h1>
+  </div>
+
+  <section class="section">
+    <div class="wrap">
+      <ul class="grid">
+        {
+          photos.map((photo, i) => (
+            <li>
+              <a href={photo.full} data-index={i} data-alt={photo.alt}>
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  width={480}
+                  height={480}
+                  fit="cover"
+                  widths={[240, 480, 720]}
+                  sizes="(min-width: 900px) 220px, (min-width: 560px) 33vw, 50vw"
+                  loading={i < 8 ? 'eager' : 'lazy'}
+                />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <dialog class="lightbox" aria-label="Photo viewer">
+    <button class="close" type="button" aria-label="Close">×</button>
+    <button class="prev" type="button" aria-label="Previous photo">‹</button>
+    <img alt="" />
+    <button class="next" type="button" aria-label="Next photo">›</button>
+  </dialog>
+</Base>
+
+<script>
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.grid a')];
+  const dialog = document.querySelector<HTMLDialogElement>('.lightbox');
+  const image = dialog?.querySelector('img');
+  let current = 0;
+
+  function show(index: number) {
+    if (!dialog || !image) return;
+    current = (index + links.length) % links.length;
+    const link = links[current];
+    image.src = link.href;
+    image.alt = link.dataset.alt ?? '';
+    if (!dialog.open) dialog.showModal();
+  }
+
+  links.forEach((link, i) =>
+    link.addEventListener('click', (event) => {
+      if (!dialog?.showModal) return; // fall back to opening the image
+      event.preventDefault();
+      show(i);
+    }),
+  );
+
+  dialog?.querySelector('.close')?.addEventListener('click', () => dialog.close());
+  dialog?.querySelector('.prev')?.addEventListener('click', () => show(current - 1));
+  dialog?.querySelector('.next')?.addEventListener('click', () => show(current + 1));
+  dialog?.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+  dialog?.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') show(current - 1);
+    if (event.key === 'ArrowRight') show(current + 1);
+  });
+  dialog?.addEventListener('close', () => links[current]?.focus());
+</script>
+
+<style>
+  .grid {
+    display: grid;
+    gap: 0.6rem;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 560px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  .grid a {
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+
+  .grid img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .grid a:hover img {
+    transform: scale(1.04);
+  }
+
+  .lightbox {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgb(0 0 0 / 0.92);
+  }
+
+  .lightbox[open] {
+    display: grid;
+    place-items: center;
+  }
+
+  .lightbox::backdrop {
+    background: rgb(0 0 0 / 0.92);
+  }
+
+  .lightbox img {
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100dvh - 2rem);
+    object-fit: contain;
+  }
+
+  .lightbox button {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(0 0 0 / 0.55);
+    color: var(--white);
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .lightbox button:hover {
+    background: var(--red);
+  }
+
+  .close {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .prev {
+    left: 1rem;
+    top: 50%;
+    translate: 0 -50%;
+  }
+
+  .next {
+    right: 1rem;
+    top: 50%;
+    translate: 0 -50%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .grid img {
+      transition: none;
+    }
+  }
+</style>
