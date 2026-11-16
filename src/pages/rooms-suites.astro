@@ -68,8 +68,8 @@ import { currency, included, notes, roomGroups } from '../data/rooms';
   .info {
     display: grid;
     gap: 1rem 3rem;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    padding: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+    padding: clamp(1rem, 4vw, 1.5rem);
     border: 1px solid var(--line);
     border-left: 4px solid var(--red);
     border-radius: var(--radius);

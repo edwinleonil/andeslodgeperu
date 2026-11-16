@@ -38,7 +38,7 @@ const year = new Date().getFullYear();
 
 <style>
   .site-footer {
-    padding-block: 3rem 1.5rem;
+    padding-block: 3rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
     background: var(--ink);
     color: #d9d4cd;
     font-size: 0.95rem;
@@ -78,6 +78,19 @@ const year = new Date().getFullYear();
 
   a:hover {
     color: #ffb3bf;
+  }
+
+  /* Phones: give each link a finger-sized tap area */
+  @media (max-width: 819px) {
+    li a,
+    p > a {
+      display: inline-block;
+      padding-block: 0.75rem;
+    }
+
+    ul {
+      margin-bottom: 0;
+    }
   }
 
   .legal {

@@ -72,6 +72,7 @@ import { site } from '../data/site';
     position: relative;
     display: grid;
     min-height: min(70vh, 560px);
+    min-height: min(70svh, 560px); /* svh ignores the phone's sliding address bar */
     background: var(--ink);
   }
 
@@ -110,7 +111,12 @@ import { site } from '../data/site';
   }
 
   .reviews {
-    margin-top: 1.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .reviews a {
+    display: inline-block;
+    padding-block: 0.75rem;
   }
 
   [id] {

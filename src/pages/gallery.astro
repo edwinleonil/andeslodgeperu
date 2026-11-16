@@ -7,7 +7,10 @@ const photos = await Promise.all(
   gallery.map(async (name) => {
     const photo = img(name);
     const full = await getImage({ src: photo.src, width: Math.min(1600, photo.src.width) });
-    return { ...photo, full: full.src };
+    // Lighter version for the photo viewer on phones
+    const small = await getImage({ src: photo.src, width: Math.min(800, photo.src.width) });
+    const srcset = `${small.src} ${small.attributes.width}w, ${full.src} ${full.attributes.width}w`;
+    return { ...photo, full: full.src, srcset };
   }),
 );
 ---
@@ -27,7 +30,7 @@ const photos = await Promise.all(
         {
           photos.map((photo, i) => (
             <li>
-              <a href={photo.full} data-index={i} data-alt={photo.alt}>
+              <a href={photo.full} data-index={i} data-alt={photo.alt} data-srcset={photo.srcset}>
                 <Image
                   src={photo.src}
                   alt={photo.alt}
@@ -49,7 +52,7 @@ const photos = await Promise.all(
   <dialog class="lightbox" aria-label="Photo viewer">
     <button class="close" type="button" aria-label="Close">×</button>
     <button class="prev" type="button" aria-label="Previous photo">‹</button>
-    <img alt="" />
+    <img alt="" sizes="100vw" />
     <button class="next" type="button" aria-label="Next photo">›</button>
   </dialog>
 </Base>
@@ -64,6 +67,7 @@ const photos = await Promise.all(
     if (!dialog || !image) return;
     current = (index + links.length) % links.length;
     const link = links[current];
+    image.srcset = link.dataset.srcset ?? '';
     image.src = link.href;
     image.alt = link.dataset.alt ?? '';
     if (!dialog.open) dialog.showModal();
@@ -88,6 +92,28 @@ const photos = await Promise.all(
     if (event.key === 'ArrowRight') show(current + 1);
   });
   dialog?.addEventListener('close', () => links[current]?.focus());
+
+  // Swipe left / right to move between photos on touch screens
+  let startX = 0;
+  let startY = 0;
+  dialog?.addEventListener(
+    'touchstart',
+    (event) => {
+      startX = event.changedTouches[0].clientX;
+      startY = event.changedTouches[0].clientY;
+    },
+    { passive: true },
+  );
+  dialog?.addEventListener(
+    'touchend',
+    (event) => {
+      const dx = event.changedTouches[0].clientX - startX;
+      const dy = event.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+      show(dx < 0 ? current + 1 : current - 1);
+    },
+    { passive: true },
+  );
 </script>
 
 <style>
@@ -125,8 +151,11 @@ const photos = await Promise.all(
     transition: transform 0.3s ease;
   }
 
-  .grid a:hover img {
-    transform: scale(1.04);
+  /* Only where there is a real pointer; on touch screens hover sticks after a tap */
+  @media (hover: hover) {
+    .grid a:hover img {
+      transform: scale(1.04);
+    }
   }
 
   .lightbox {
@@ -170,12 +199,14 @@ const photos = await Promise.all(
     cursor: pointer;
   }
 
-  .lightbox button:hover {
-    background: var(--red);
+  @media (hover: hover) {
+    .lightbox button:hover {
+      background: var(--red);
+    }
   }
 
   .close {
-    top: 1rem;
+    top: max(1rem, env(safe-area-inset-top, 0px));
     right: 1rem;
   }
 

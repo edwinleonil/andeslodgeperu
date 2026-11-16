@@ -12,7 +12,8 @@
   --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
 
   --wrap: 1120px;
-  --gutter: clamp(1rem, 4vw, 2rem);
+  /* Side margin; grows to clear the notch when a phone is held sideways */
+  --gutter: max(clamp(1rem, 4vw, 2rem), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
   --radius: 6px;
 }
 
@@ -25,6 +26,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgb(200 16 46 / 0.15);
 }
 
 body {
@@ -34,6 +36,7 @@ body {
   line-height: 1.7;
   color: var(--ink);
   background: var(--paper);
+  overflow-wrap: break-word;
 }
 
 img {
@@ -155,7 +158,7 @@ p {
 .photo-row {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
 }
 
 .photo-row .photo {

@@ -42,9 +42,16 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
     const toggle = document.querySelector('.menu-toggle');
     const nav = document.getElementById('site-nav');
     if (!toggle || !nav) return;
-    toggle.addEventListener('click', () => {
-      const open = nav.classList.toggle('open');
+    const setOpen = (open) => {
+      nav.classList.toggle('open', open);
       toggle.setAttribute('aria-expanded', String(open));
+    };
+    toggle.addEventListener('click', () => setOpen(!nav.classList.contains('open')));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && nav.classList.contains('open')) {
+        setOpen(false);
+        toggle.focus();
+      }
     });
   })();
 </script>
@@ -87,7 +94,12 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 
   .menu-toggle {
     display: none;
-    padding: 0.4rem;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    margin-right: -9px; /* keeps the icon on the page margin */
+    padding: 0;
     border: 0;
     background: none;
     color: var(--ink);
@@ -119,6 +131,24 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
   }
 
   @media (max-width: 819px) {
+    /* Keep logo, name and menu button on one line down to 320px wide */
+    .bar {
+      gap: 0 0.5rem;
+    }
+
+    .brand {
+      flex: 1 1 0;
+      min-width: 0;
+      gap: 0.6rem;
+      font-size: clamp(0.85rem, 4.2vw, 1.15rem);
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .brand img {
+      width: 40px;
+    }
+
     .menu-toggle {
       display: inline-flex;
     }
@@ -139,8 +169,13 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
     }
 
     nav a {
-      padding: 0.7rem 0;
+      padding: 0.8rem 0;
+      font-size: 1rem;
       border-bottom: 1px solid var(--line);
+    }
+
+    nav li:last-child a {
+      border-bottom-color: transparent;
     }
   }
 </style>
