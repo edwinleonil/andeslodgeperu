@@ -1,6 +1,7 @@
 ---
 import Photo from '../components/Photo.astro';
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 ---
 
 <Base
@@ -8,12 +9,10 @@ import Base from '../layouts/Base.astro';
   description="Yanama and its surroundings: day treks, lakes, the high peaks of the Cordillera Blanca and traditional Andean festivals."
   shareImage="lake-llanganuco"
 >
-  <div class="wrap page-head">
-    <h1>Local Area</h1>
-  </div>
+  <PageHero title="Local Area" image="cordillera-blanca-peaks" eyebrow="Yanama & around" intro="Treks, glacial lakes, high peaks and village festivals on our doorstep." />
 
   <section class="section">
-    <div class="wrap split">
+    <div class="wrap split reveal">
       <div>
         <h2>Yanama</h2>
         <p>
@@ -25,12 +24,12 @@ import Base from '../layouts/Base.astro';
           a petrol station.
         </p>
       </div>
-      <Photo name="yanama-plaza" class="area-photo" eager />
+      <Photo name="yanama-plaza" class="area-photo" />
     </div>
   </section>
 
   <section class="section section--sand">
-    <div class="wrap split split--flip">
+    <div class="wrap split split--flip reveal">
       <div>
         <h2>Activities</h2>
         <p>

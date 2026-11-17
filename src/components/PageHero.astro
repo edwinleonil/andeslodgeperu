@@ -1,0 +1,73 @@
+---
+// Photo banner with the page title, used at the top of every inner page.
+import Photo from './Photo.astro';
+
+interface Props {
+  title: string;
+  /** Image name in src/assets/images */
+  image: string;
+  /** Small label above the title */
+  eyebrow?: string;
+  /** One-line introduction under the title */
+  intro?: string;
+}
+
+const { title, image, eyebrow, intro } = Astro.props;
+---
+
+<section class="page-hero">
+  <Photo name={image} sizes="100vw" eager />
+  <div class="text">
+    <div class="wrap">
+      {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+      <h1>{title}</h1>
+      {intro && <p>{intro}</p>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    display: grid;
+    height: clamp(260px, 38vw, 440px);
+    overflow: hidden;
+    background: var(--night);
+    color: var(--white);
+  }
+
+  .page-hero > :global(*) {
+    grid-area: 1 / 1;
+    min-height: 0;
+  }
+
+  .page-hero :global(.photo) {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .text {
+    display: flex;
+    align-items: flex-end;
+    padding-block: clamp(1.75rem, 5vw, 3.5rem);
+    background: linear-gradient(to top, rgb(0 0 0 / 0.7), rgb(0 0 0 / 0.15) 65%, rgb(0 0 0 / 0.05));
+  }
+
+  .eyebrow {
+    color: #ffc2cb;
+  }
+
+  h1 {
+    margin: 0;
+    text-shadow: 0 2px 20px rgb(0 0 0 / 0.3);
+  }
+
+  p {
+    max-width: 52ch;
+    margin: 0.6rem 0 0;
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    line-height: 1.5;
+    color: rgb(255 255 255 / 0.9);
+  }
+</style>

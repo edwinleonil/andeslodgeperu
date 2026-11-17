@@ -17,11 +17,12 @@ export interface RoomGroup {
   rooms: Room[];
 }
 
-export const included = ['Breakfast', 'Towels'];
+export const included = ['Breakfast', 'Towels', 'Shampoo and soap'];
 
 export const notes = [
   'All rooms have bedside tables and a wardrobe',
   'Check-in after 3 pm and check-out at 12 pm. Late checkout options are available',
+  'We do not take online payments. All payments are made in cash on arrival at the lodge',
 ];
 
 export const roomGroups: RoomGroup[] = [

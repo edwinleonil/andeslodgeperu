@@ -1,6 +1,7 @@
 ---
 import { getImage, Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import { gallery, img } from '../data/images';
 
 const photos = await Promise.all(
@@ -20,9 +21,7 @@ const photos = await Promise.all(
   description="Photos of Andes Lodge Peru, the village of Yanama and the surrounding Cordillera Blanca."
   shareImage="lodge-front"
 >
-  <div class="wrap page-head">
-    <h1>Gallery</h1>
-  </div>
+  <PageHero title="Gallery" image="lodge-front" eyebrow="Photos" intro="The lodge, the village of Yanama and the Cordillera Blanca." />
 
   <section class="section">
     <div class="wrap">

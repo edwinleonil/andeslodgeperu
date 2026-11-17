@@ -105,7 +105,7 @@ Edit `src/data/rooms.ts`. Each room looks like this:
 
 Change the number to change the price. To add a room, copy one of these blocks inside the right group. To add a whole new group (for example "Family"), copy a full group block, including its `title`, `beds`, `image` and `rooms`.
 
-### Change phone numbers, email or address
+### Change phone numbers or address
 
 Edit `src/data/site.ts`. For each phone there are two values that must match:
 

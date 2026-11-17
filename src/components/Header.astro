@@ -32,6 +32,9 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
             </li>
           ))
         }
+        <li class="nav-book">
+          <a class="button" href="/#reservation">Book now</a>
+        </li>
       </ul>
     </nav>
   </div>
@@ -39,6 +42,11 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 <script is:inline>
   (() => {
+    const header = document.querySelector('.site-header');
+    const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
     const toggle = document.querySelector('.menu-toggle');
     const nav = document.getElementById('site-nav');
     if (!toggle || !nav) return;
@@ -61,8 +69,14 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
     position: sticky;
     top: 0;
     z-index: 20;
-    background: var(--white);
+    background: rgb(255 255 255 / 0.92);
+    backdrop-filter: saturate(1.4) blur(10px);
     border-bottom: 1px solid var(--line);
+    transition: box-shadow 0.25s;
+  }
+
+  .site-header.scrolled {
+    box-shadow: 0 4px 20px rgb(31 29 27 / 0.08);
   }
 
   .bar {
@@ -81,8 +95,9 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
     color: var(--ink);
     text-decoration: none;
     font-family: var(--font-display);
-    font-size: 1.15rem;
-    letter-spacing: 0.12em;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
@@ -109,25 +124,36 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
   ul {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.25rem 1.5rem;
+    align-items: center;
+    gap: 0.25rem 1.6rem;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  nav a {
+  nav a:not(.button) {
     display: block;
     padding: 0.4rem 0;
     color: var(--ink);
     text-decoration: none;
     font-size: 0.95rem;
+    font-weight: 500;
     border-bottom: 2px solid transparent;
+    transition:
+      color 0.2s,
+      border-color 0.2s;
   }
 
-  nav a:hover,
+  nav a:not(.button):hover,
   nav a[aria-current='page'] {
     color: var(--red-dark);
     border-bottom-color: var(--red);
+  }
+
+  .nav-book .button {
+    min-height: 40px;
+    padding: 0.45em 1.2em;
+    font-size: 0.9rem;
   }
 
   @media (max-width: 819px) {
@@ -168,14 +194,19 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
       padding-bottom: 0.5rem;
     }
 
-    nav a {
+    nav a:not(.button) {
       padding: 0.8rem 0;
       font-size: 1rem;
       border-bottom: 1px solid var(--line);
     }
 
-    nav li:last-child a {
+    nav li:nth-last-child(2) a {
       border-bottom-color: transparent;
+    }
+
+    /* Phones get the floating booking button instead */
+    .nav-book {
+      display: none;
     }
   }
 </style>

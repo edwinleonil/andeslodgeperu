@@ -1,6 +1,7 @@
 ---
 import Photo from '../components/Photo.astro';
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 ---
 
 <Base
@@ -8,13 +9,11 @@ import Base from '../layouts/Base.astro';
   description="Garden, rooftop terrace with bar, lounge, Peruvian food, laundry and Wi-Fi at Andes Lodge Peru in Yanama."
   shareImage="terrace-breakfast-table"
 >
-  <div class="wrap page-head">
-    <h1>Lodge Amenities</h1>
-  </div>
+  <PageHero title="Lodge Amenities" image="terrace-covered-view" eyebrow="At the lodge" intro="Simple comforts for resting between days out in the mountains." />
 
   <section class="section">
-    <div class="wrap split">
-      <Photo name="garden" class="amenity-photo" eager />
+    <div class="wrap split reveal">
+      <Photo name="garden" class="amenity-photo" />
       <div>
         <h2>Garden</h2>
         <p>The small, tranquil garden is ideal for reading or snoozing in the sun.</p>
@@ -23,7 +22,7 @@ import Base from '../layouts/Base.astro';
   </section>
 
   <section class="section section--sand">
-    <div class="wrap split split--flip">
+    <div class="wrap split split--flip reveal">
       <Photo name="terrace-breakfast-table" class="amenity-photo" />
       <div>
         <h2>Rooftop Terrace</h2>
@@ -36,7 +35,7 @@ import Base from '../layouts/Base.astro';
   </section>
 
   <section class="section">
-    <div class="wrap split">
+    <div class="wrap split reveal">
       <Photo name="lounge" class="amenity-photo" />
       <div>
         <h2>Lounge</h2>
@@ -46,7 +45,7 @@ import Base from '../layouts/Base.astro';
   </section>
 
   <section class="section section--sand">
-    <div class="wrap split split--flip">
+    <div class="wrap split split--flip reveal">
       <div class="pair">
         <Photo name="rooftop-terrace" sizes="(min-width: 820px) 280px, 50vw" />
         <Photo name="oven-fire-night" sizes="(min-width: 820px) 280px, 50vw" />
@@ -54,12 +53,10 @@ import Base from '../layouts/Base.astro';
       <div>
         <h2>Authentic Peruvian Food and Drink</h2>
         <p>
-          Breakfast is included in the room's price, and if you would like to book lunch and dinner meals you just
-          have to let us know at least a week in advance (this is so we can get all the ingredients in advance as
-          we may need to get some stuff from Huaraz). There are local restaurants in the village but if you have
-          some dietary requirements we advise to book with us in advance. Local restaurants mostly provide local
-          dishes and are generally of good quality. If you have any doubts about the restaurant you could ask at
-          the lodge for recommendations or we may also be able to help book a restaurant for you.
+          Breakfast is included in the room's price. For lunch and dinner, there are local restaurants in the
+          village. Local restaurants mostly provide local dishes and are generally of good quality. If you have any
+          dietary requirements or doubts about a restaurant, you could ask at the lodge for recommendations or we
+          may also be able to help book a restaurant for you.
         </p>
         <p><strong>Note:</strong> If the lodge isn't busy, it may be possible for you to prepare your own meals.</p>
       </div>
@@ -68,8 +65,9 @@ import Base from '../layouts/Base.astro';
 
   <section class="section">
     <div class="wrap">
-      <div class="cards">
+      <div class="cards reveal">
         <article>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18H5zM5 7h14M8 5h.01M11 5h.01"/><circle cx="12" cy="14" r="4"/></svg>
           <h2>Laundry</h2>
           <p>
             A laundry service is offered at a minimal charge and guests are welcome to store luggage at the lodge
@@ -77,10 +75,15 @@ import Base from '../layouts/Base.astro';
           </p>
         </article>
         <article>
-          <h2>Wi-Fi available</h2>
-          <p>3G signal from Bitel (better signal), Movistar, and Entel are also available around the village.</p>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0"/><path d="M12 19.5h.01"/></svg>
+          <h2>Wi-Fi</h2>
+          <p>
+            We provide Wi-Fi from time to time, but the service is not guaranteed. However, there is 3G signal from
+            Bitel (better signal), Movistar, and Entel around the village.
+          </p>
         </article>
         <article>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
           <h2>Late Check-out</h2>
           <p>
             Depending how busy the lodge is, late check-out at 3pm rather than 12pm may be possible. We will be
@@ -120,10 +123,25 @@ import Base from '../layouts/Base.astro';
   }
 
   .cards article {
-    padding: 1.5rem;
+    padding: 1.75rem 1.5rem 1.5rem;
     border: 1px solid var(--line);
     border-radius: var(--radius);
     background: var(--white);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .icon {
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-bottom: 1rem;
+    padding: 0.6rem;
+    border-radius: 50%;
+    background: #fbe7ea;
+    fill: none;
+    stroke: var(--red-dark);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .cards h2 {

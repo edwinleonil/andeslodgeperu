@@ -2,7 +2,41 @@
 import ContactBlock from '../components/ContactBlock.astro';
 import Photo from '../components/Photo.astro';
 import Base from '../layouts/Base.astro';
+import { currency, roomGroups } from '../data/rooms';
 import { site } from '../data/site';
+
+const fromPrice = Math.min(...roomGroups.flatMap((g) => g.rooms.map((r) => r.price)));
+const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  `${site.name}, ${site.address.locality}, ${site.address.region}, Peru`,
+)}`;
+
+const highlights = [
+  { value: '20 min', label: 'from Huascaran National Park' },
+  { value: '5,500 m+', label: 'peaks surrounding the lodge' },
+  { value: 'Breakfast', label: 'included with every room' },
+  { value: 'Family-run', label: 'in a traditional Andean village' },
+];
+
+const stay = [
+  {
+    href: '/rooms-suites',
+    image: 'room-super-king',
+    title: 'Rooms & prices',
+    text: `Single, twin, double, super king-size and triple rooms, from ${currency} ${fromPrice} a night.`,
+  },
+  {
+    href: '/amenities',
+    image: 'terrace-breakfast-table',
+    title: 'Lodge amenities',
+    text: 'A quiet garden, a rooftop terrace with a bar, a cosy lounge and laundry service.',
+  },
+  {
+    href: '/local-area',
+    image: 'lake-llanganuco',
+    title: 'Local area',
+    text: 'Day treks to glacial lakes, high peaks to climb and the festivals of Yanama.',
+  },
+];
 ---
 
 <Base>
@@ -10,21 +44,38 @@ import { site } from '../data/site';
     <Photo name="yanama-valley-panorama" sizes="100vw" eager />
     <div class="hero-text">
       <div class="wrap">
+        <span class="eyebrow">Yanama · Ancash · Peru</span>
         <h1>{site.name}</h1>
         <p>{site.tagline}</p>
-        <a class="button" href="#reservation">Make a reservation</a>
+        <div class="actions">
+          <a class="button" href="#reservation">Make a reservation</a>
+          <a class="button button--ghost" href="/rooms-suites">See rooms &amp; prices</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="section">
-    <div class="wrap">
-      <div class="prose">
-        <h2>Welcome</h2>
-        <p>
-          Andes Lodge Peru is a family-run guesthouse located in the village of Yanama, Ancash, Peru, offering
-          accommodation just twenty minutes outside the Huascaran National Park. The lodge is a comfortable place
-          to stay in a traditional rural Andean community of Peru.
+  <div class="wrap">
+    <ul class="highlights">
+      {
+        highlights.map((h) => (
+          <li>
+            <strong>{h.value}</strong>
+            <span>{h.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <section class="section welcome">
+    <div class="wrap split">
+      <div class="reveal">
+        <span class="eyebrow">Welcome</span>
+        <h2>A comfortable base in the heart of the Cordillera Blanca</h2>
+        <p class="lede">
+          Andes Lodge Peru is a family-run guesthouse in the village of Yanama, Ancash, just twenty minutes outside
+          the Huascaran National Park.
         </p>
         <p>
           Surrounding the lodge are some of the highest peaks of the Cordillera Blanca such as Huascaran, Pisco,
@@ -32,18 +83,52 @@ import { site } from '../data/site';
           to climbing some of these peaks. The lodge can also be a good place to stay if you are exploring the
           beautiful Lake Llanganuco, Lake 69, Lake Ulta and the Santa Cruz trek.
         </p>
+        <p>
+          The lodge is also ideal for those doing the <strong>Vuelta al Huascaran</strong> (Huascaran Loop or
+          Circuit), a high-altitude adventure route through the Cordillera Blanca that circles Nevado Huascaran, the
+          highest tropical mountain in the world. The loop is around 230 km long and crosses passes above 4,700 m,
+          including Punta Olimpica and the Portachuelo de Llanganuco. It can be done by bike or on foot, and Yanama
+          is a natural place to stop along the way.
+          Read more about the route on
+          <a href="https://bikepacking.com/plog/huascaran-revisited/" rel="noopener">Bikepacking.com</a> and
+          <a href="https://worldsketchingtour.com/tours/huascaran-loop/" rel="noopener">World Sketching Tour</a>.
+        </p>
       </div>
-      <div class="photo-row welcome-photos">
-        <Photo name="lodge-exterior" sizes="(min-width: 820px) 360px, 100vw" />
-        <Photo name="terrace-covered-view" sizes="(min-width: 820px) 360px, 100vw" />
-        <Photo name="balcony-valley-view" sizes="(min-width: 820px) 360px, 100vw" />
+      <div class="mosaic reveal">
+        <Photo name="lodge-exterior" sizes="(min-width: 820px) 320px, 60vw" />
+        <Photo name="terrace-covered-view" sizes="(min-width: 820px) 260px, 40vw" />
+        <Photo name="balcony-valley-view" sizes="(min-width: 820px) 260px, 40vw" />
       </div>
     </div>
   </section>
 
-  <section class="section section--sand" id="location">
-    <div class="wrap prose-wrap">
-      <div class="prose">
+  <section class="section section--sand">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Stay with us</span>
+        <h2>Everything you need after a day in the mountains</h2>
+      </div>
+      <div class="stay">
+        {
+          stay.map((item) => (
+            <a class="stay-card reveal" href={item.href}>
+              <Photo name={item.image} sizes="(min-width: 900px) 380px, (min-width: 600px) 50vw, 100vw" />
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+                <span class="more">Find out more</span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="location">
+    <div class="wrap split split--flip">
+      <div class="reveal">
+        <span class="eyebrow">Getting here</span>
         <h2>Location</h2>
         <p>
           Yanama is situated close to the Huascaran National Park and is four and a half hours from the city of
@@ -51,18 +136,27 @@ import { site } from '../data/site';
           Cordillera Blanca including Huascaran, Peru's highest mountain. It passes through the Huascaran National
           Park with its beautiful glacial lakes and stunning mountain scenery.
         </p>
-        <p><strong>Address:</strong> {site.address.display}</p>
+        <address>
+          <strong>Address</strong>
+          {site.address.display}
+        </address>
+        <a class="more" href={mapsLink} rel="noopener">Open in Google Maps</a>
       </div>
+      <Photo name="village-rooftops-snow-peak" class="location-photo reveal" />
     </div>
   </section>
 
-  <section class="section" id="reservation">
-    <div class="wrap">
-      <h2>To make a reservation</h2>
+  <section class="booking" id="reservation">
+    <div class="wrap booking-inner">
+      <div class="booking-head">
+        <span class="eyebrow">Reservations</span>
+        <h2>To make a reservation</h2>
+        <p class="reviews">
+          Read our reviews on <a href={site.tripadvisor} rel="noopener">Tripadvisor</a> and
+          <a href={site.googleReviews} rel="noopener">Google</a>
+        </p>
+      </div>
       <ContactBlock />
-      <p class="reviews">
-        <a href={site.tripadvisor} rel="noopener">Read our reviews on Tripadvisor</a>
-      </p>
     </div>
   </section>
 </Base>
@@ -71,9 +165,9 @@ import { site } from '../data/site';
   .hero {
     position: relative;
     display: grid;
-    min-height: min(70vh, 560px);
-    min-height: min(70svh, 560px); /* svh ignores the phone's sliding address bar */
-    background: var(--ink);
+    min-height: min(82vh, 720px);
+    min-height: min(82svh, 720px); /* svh ignores the phone's sliding address bar */
+    background: var(--night);
   }
 
   .hero > :global(*) {
@@ -84,39 +178,249 @@ import { site } from '../data/site';
     width: 100%;
     height: 100%;
     border-radius: 0;
+    box-shadow: none;
   }
 
   .hero-text {
     display: flex;
     align-items: flex-end;
-    padding-block: clamp(2rem, 6vw, 4rem);
-    background: linear-gradient(to top, rgb(0 0 0 / 0.72), rgb(0 0 0 / 0.1) 70%);
+    padding-block: clamp(2.5rem, 7vw, 5rem) clamp(4.5rem, 10vw, 7.5rem);
+    background:
+      linear-gradient(to top, rgb(0 0 0 / 0.75), rgb(0 0 0 / 0.2) 55%, rgb(0 0 0 / 0.1)),
+      linear-gradient(to right, rgb(0 0 0 / 0.35), transparent 60%);
     color: var(--white);
   }
 
+  .hero-text .eyebrow {
+    color: #ffc2cb;
+  }
+
   .hero-text h1 {
-    margin-bottom: 0.3em;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    margin-bottom: 0.25em;
+    text-shadow: 0 2px 24px rgb(0 0 0 / 0.3);
   }
 
   .hero-text p {
-    max-width: 44ch;
+    max-width: 46ch;
+    margin-bottom: 1.75rem;
     font-size: clamp(1.05rem, 2vw, 1.3rem);
-    line-height: 1.5;
+    line-height: 1.55;
+    color: rgb(255 255 255 / 0.92);
   }
 
-  .welcome-photos {
-    margin-top: 2rem;
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
   }
 
-  .reviews {
-    margin-top: 0.75rem;
+  /* Card that overlaps the bottom of the hero photo */
+  .highlights {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: calc(-1 * clamp(2.5rem, 6vw, 4rem)) 0 0;
+    padding: 0;
+    list-style: none;
+    border-radius: var(--radius);
+    background: var(--white);
+    box-shadow: var(--shadow);
+  }
+
+  @media (min-width: 820px) {
+    .highlights {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .highlights li {
+    display: grid;
+    align-content: start;
+    gap: 0.2rem;
+    padding: clamp(1rem, 3vw, 1.6rem) clamp(1rem, 2.5vw, 1.75rem);
+    border-left: 1px solid var(--line);
+    line-height: 1.35;
+  }
+
+  .highlights li:nth-child(odd) {
+    border-left: 0;
+  }
+
+  .highlights li:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: 820px) {
+    .highlights li:nth-child(odd) {
+      border-left: 1px solid var(--line);
+    }
+    .highlights li:first-child {
+      border-left: 0;
+    }
+    .highlights li:nth-child(n + 3) {
+      border-top: 0;
+    }
+  }
+
+  .highlights strong {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+    font-weight: 500;
+    color: var(--red-dark);
+  }
+
+  .highlights span {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+
+  /* Three photos in an offset arrangement */
+  .mosaic {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: clamp(0.6rem, 1.5vw, 1rem);
+  }
+
+  .mosaic :global(.photo) {
+    height: 100%;
+  }
+
+  .mosaic :global(.photo:first-child) {
+    grid-row: span 2;
+    aspect-ratio: 3 / 4;
+  }
+
+  .mosaic :global(.photo:not(:first-child)) {
+    aspect-ratio: 4 / 3;
+  }
+
+  .section-head {
+    max-width: 40ch;
+    margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+  }
+
+  .section-head h2 {
+    margin: 0;
+  }
+
+  .stay {
+    display: grid;
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  }
+
+  .stay-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+    color: var(--ink);
+    text-decoration: none;
+    transition:
+      box-shadow 0.3s,
+      transform 0.3s var(--ease);
+  }
+
+  .stay-card :global(.photo) {
+    aspect-ratio: 3 / 2;
+    border-radius: 0;
+    box-shadow: none;
+    transition: transform 0.6s var(--ease);
+  }
+
+  .stay-card div {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1.25rem 1.4rem 1.1rem;
+  }
+
+  .stay-card h3 {
+    margin-bottom: 0.35em;
+  }
+
+  .stay-card p {
+    flex: 1;
+    margin-bottom: 0.5rem;
+    color: var(--ink-soft);
+  }
+
+  .stay-card .more {
+    color: var(--red-dark);
+  }
+
+  @media (hover: hover) {
+    .stay-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .stay-card:hover :global(.photo) {
+      transform: scale(1.04);
+    }
+    .stay-card:hover .more::after {
+      transform: translateX(3px);
+    }
+  }
+
+  address {
+    display: grid;
+    margin: 1.25rem 0 0.5rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--red);
+    font-style: normal;
+  }
+
+  :global(.location-photo) {
+    aspect-ratio: 4 / 3;
+  }
+
+  /* Dark booking band */
+  .booking {
+    padding-block: clamp(3rem, 8vw, 6rem);
+    background: var(--night);
+    color: #e9e4dd;
+  }
+
+  .booking-inner {
+    display: grid;
+    gap: 1rem clamp(2rem, 5vw, 4.5rem);
+  }
+
+  @media (min-width: 900px) {
+    .booking-inner {
+      grid-template-columns: 1fr 1.6fr;
+      align-items: start;
+    }
+  }
+
+  .booking h2 {
+    color: var(--white);
+  }
+
+  .booking .eyebrow {
+    color: #ff8a9c;
+  }
+
+  .booking :global(.contact > p) {
+    color: #cfc8bf;
+  }
+
+  .booking :global(.contact strong) {
+    color: var(--white);
   }
 
   .reviews a {
     display: inline-block;
-    padding-block: 0.75rem;
+    padding-block: 0.5rem;
+    color: var(--white);
+  }
+
+  .reviews a:hover {
+    color: #ffb3bf;
   }
 
   [id] {

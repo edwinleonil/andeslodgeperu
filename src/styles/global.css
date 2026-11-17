@@ -2,19 +2,23 @@
   --red: #c8102e;
   --red-dark: #9c0c23;
   --ink: #1f1d1b;
-  --ink-soft: #55504b;
+  --ink-soft: #5c5650;
   --paper: #fbf9f6;
-  --sand: #f2ede5;
-  --line: #e2dbd0;
+  --sand: #f3ede4;
+  --line: #e4dccf;
+  --night: #1b1a19;
   --white: #fff;
 
-  --font-body: 'Avenir Next', Avenir, 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  --font-body: 'Inter Variable', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Fraunces Variable', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
 
-  --wrap: 1120px;
+  --wrap: 1180px;
   /* Side margin; grows to clear the notch when a phone is held sideways */
   --gutter: max(clamp(1rem, 4vw, 2rem), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
-  --radius: 6px;
+  --radius: 10px;
+  --shadow-sm: 0 1px 2px rgb(31 29 27 / 0.06), 0 2px 8px rgb(31 29 27 / 0.06);
+  --shadow: 0 2px 6px rgb(31 29 27 / 0.06), 0 12px 32px rgb(31 29 27 / 0.1);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 *,
@@ -37,6 +41,7 @@ body {
   color: var(--ink);
   background: var(--paper);
   overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
 }
 
 img {
@@ -47,7 +52,8 @@ img {
 
 a {
   color: var(--red-dark);
-  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
 }
 
 a:hover {
@@ -64,37 +70,48 @@ h2,
 h3 {
   font-family: var(--font-display);
   font-weight: 500;
-  line-height: 1.2;
-  margin: 0 0 0.6em;
+  font-optical-sizing: auto;
+  line-height: 1.15;
+  margin: 0 0 0.5em;
   text-wrap: balance;
 }
 
 h1 {
-  font-size: clamp(2rem, 5vw, 3.25rem);
-  letter-spacing: 0.02em;
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  letter-spacing: -0.01em;
 }
 
 h2 {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-h2::after {
-  content: '';
-  display: block;
-  width: 3rem;
-  height: 3px;
-  margin-top: 0.5em;
-  background: var(--red);
+  font-size: clamp(1.75rem, 3.6vw, 2.5rem);
+  letter-spacing: -0.005em;
 }
 
 h3 {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 
 p {
   margin: 0 0 1em;
+  text-wrap: pretty;
+}
+
+/* Small red label above a heading */
+.eyebrow {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.lede {
+  font-size: clamp(1.1rem, 1.6vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--ink-soft);
 }
 
 .wrap {
@@ -103,7 +120,7 @@ p {
 }
 
 .section {
-  padding-block: clamp(2.5rem, 7vw, 5rem);
+  padding-block: clamp(3rem, 8vw, 6rem);
 }
 
 .section--sand {
@@ -114,41 +131,26 @@ p {
   max-width: 68ch;
 }
 
-.page-head {
-  padding-block: clamp(2rem, 6vw, 4rem) 0;
-}
-
-.page-head h1 {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 0;
-}
-
-.page-head h1::after {
-  content: '';
-  display: block;
-  width: 4rem;
-  height: 4px;
-  margin-top: 0.4em;
-  background: var(--red);
-}
-
 .photo {
   width: 100%;
   border-radius: var(--radius);
   object-fit: cover;
+  box-shadow: var(--shadow-sm);
 }
 
 /* Text beside a photo; stacks on small screens */
 .split {
   display: grid;
-  gap: clamp(1.5rem, 4vw, 3.5rem);
+  gap: clamp(1.75rem, 5vw, 4.5rem);
   align-items: center;
 }
 
 @media (min-width: 820px) {
   .split {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.1fr 1fr;
+  }
+  .split--flip {
+    grid-template-columns: 1fr 1.1fr;
   }
   .split--flip > :first-child {
     order: 2;
@@ -157,7 +159,7 @@ p {
 
 .photo-row {
   display: grid;
-  gap: 1rem;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
   grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
 }
 
@@ -168,18 +170,73 @@ p {
 .button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5em;
-  padding: 0.7em 1.2em;
-  border-radius: var(--radius);
+  min-height: 48px;
+  padding: 0.75em 1.5em;
+  border: 2px solid var(--red);
+  border-radius: 999px;
   background: var(--red);
   color: var(--white);
+  font-size: 0.98rem;
   font-weight: 600;
+  letter-spacing: 0.01em;
   text-decoration: none;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s,
+    transform 0.2s var(--ease);
 }
 
 .button:hover {
   background: var(--red-dark);
+  border-color: var(--red-dark);
   color: var(--white);
+}
+
+@media (hover: hover) {
+  .button:hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* Outline button for dark photo backgrounds */
+.button--ghost {
+  background: rgb(255 255 255 / 0.08);
+  border-color: rgb(255 255 255 / 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.button--ghost:hover {
+  background: var(--white);
+  border-color: var(--white);
+  color: var(--ink);
+}
+
+.button svg {
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+}
+
+/* Text link with an arrow */
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding-block: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.more::after {
+  content: '→';
+  transition: transform 0.2s var(--ease);
+}
+
+.more:hover::after {
+  transform: translateX(3px);
 }
 
 .visually-hidden {
@@ -191,8 +248,31 @@ p {
   white-space: nowrap;
 }
 
+/* Gentle fade-in as sections scroll into view (browsers that support it) */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
   }
 }

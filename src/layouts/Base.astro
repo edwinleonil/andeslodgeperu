@@ -4,6 +4,8 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { img } from '../data/images';
 import { phones, site } from '../data/site';
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/inter';
 import '../styles/global.css';
 
 interface Props {
@@ -13,9 +15,11 @@ interface Props {
   /** Image name used when the page is shared on social media */
   shareImage?: string;
   noindex?: boolean;
+  /** Hide the floating "Book" button shown on phones */
+  hideBookBar?: boolean;
 }
 
-const { title, description = site.description, shareImage = 'yanama-valley-panorama', noindex = false } = Astro.props;
+const { title, description = site.description, shareImage = 'yanama-valley-panorama', noindex = false, hideBookBar = false } = Astro.props;
 
 const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | Guesthouse in Yanama, Ancash`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -30,7 +34,6 @@ const jsonLd = {
   description: site.description,
   url: Astro.site?.href,
   image: shareUrl.href,
-  email: site.email,
   telephone: `+${phones[0].number}`,
   address: {
     '@type': 'PostalAddress',
@@ -75,6 +78,13 @@ const jsonLd = {
       <slot />
     </main>
     <Footer />
+    {
+      !hideBookBar && (
+        <a class="book-bar" href="/#reservation">
+          Book on WhatsApp
+        </a>
+      )
+    }
   </body>
 </html>
 
@@ -91,5 +101,34 @@ const jsonLd = {
   .skip:focus {
     left: 0.5rem;
     top: 0.5rem;
+  }
+
+  /* Floating booking button, phones only */
+  .book-bar {
+    display: none;
+  }
+
+  @media (max-width: 819px) {
+    .book-bar {
+      position: fixed;
+      right: max(1rem, env(safe-area-inset-right, 0px));
+      bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+      z-index: 15;
+      display: inline-flex;
+      align-items: center;
+      min-height: 48px;
+      padding: 0.7rem 1.25rem;
+      border-radius: 999px;
+      background: var(--red);
+      color: var(--white);
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgb(156 12 35 / 0.35);
+    }
+
+    /* Room for the floating button at the bottom of the page */
+    :global(.site-footer) {
+      padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)) !important;
+    }
   }
 </style>
